@@ -10,9 +10,18 @@ require 'sinatra/reloader' if development?
 #     end
 # end
 
-get '/:game?' do |game|
-    "Hellooo! You pasted this: #{game.to_s}"
+# get '/:game?' do |game|
+#     "Hellooo! You pasted this: #{game.to_s}"
+# end
+get '/' do
+
+    erb:main
+    
 end
 
+post '/game_reader' do
+    
+    puts params[:game1]
+    erb:game_reader
 
-
+end
