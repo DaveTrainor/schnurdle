@@ -21,7 +21,8 @@ end
 
 post '/game_reader' do
     
-    puts params[:game1]
+    puts params[:game1].dump
     erb:game_reader
+    
 
 end
