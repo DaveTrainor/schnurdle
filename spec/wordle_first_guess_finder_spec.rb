@@ -32,8 +32,11 @@ RSpec.describe "wordle" do
 
     it 'returns the game number' do
         get '/'
-        expect(last_response.body).to include("Wordle /\d{1,4}/")
+        #expect(last_response.body).to include("Wordle /\d{1,4}/")
+        expect(@game_array[1]).to eq(/\AWordle \d{1,4}\Z/)
     end
+
+    
 
 
 

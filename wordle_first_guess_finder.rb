@@ -13,19 +13,22 @@ require 'sinatra/reloader' if development?
 # get '/:game?' do |game|
 #     "Hellooo! You pasted this: #{game.to_s}"
 # end
+
+
 get '/' do
 
     erb:main
     
 end
 
+
 post '/game_reader' do
     
-    # puts params[:game1].dump
     game_string_dump = params[:game1].dump
     puts game_string_dump
-    game_array = game_string_dump.match /(Wordle \d{1,3})/
-    puts game_array
-    erb:game_reader, :locals => {:game_ID=>game_array[1]}
+    @game_array = /(<game_number> Wordle \d{1,3})/.match (game_string_dump)
+    puts @game_array.to_s
+    puts @game_array[0]
+    erb:game_reader, :locals => {:game_ID=>@game_array[game_number]}
 
 end
