@@ -11,6 +11,13 @@ describe 'rspec' do
     end
 end
 
+# describe 'get_game_info' do
+#     it 'returns a hash' do
+#         expect get_game_info("Wordle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩").should be_an_instance_of Hash
+#     end
+# end
+
+
 RSpec.describe "wordle" do
     include Rack::Test::Methods
 
@@ -18,23 +25,17 @@ RSpec.describe "wordle" do
         Sinatra::Application
     end    
 
-    # describe 'Data gathering' do
-    #     it 'receives something' do
-    #         dataset1 = Data_gathering.new
-    #         expect(dataset1.game_receiver.class).to eq(String)
-    #     end
-    # end
-
+ 
     it 'shows the main page' do
         get '/'
         expect(last_response.body).to include("Schnurdle")
     end
 
-    it 'returns the game number' do
-        get '/'
-        #expect(last_response.body).to include("Wordle /\d{1,4}/")
-        expect(@game_array[1]).to eq(/\AWordle \d{1,4}\Z/)
-    end
+    # it 'returns the game number' do
+    #     get '/game_reader'
+    #     #expect(last_response.body).to include("Wordle /\d{1,4}/")
+    #     expect(last_response.body).to include(/\AThe game is: \d{1,4}\Z/)
+    # end
 
     
 
