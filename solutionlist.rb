@@ -1,5 +1,7 @@
-module Solutions
-    
+
+class Solutions
+
+
     @pasted_solutions =   #from https://game8.co/games/Wordle/archives/369779#hl_2
 
     "396	trite	July 20
@@ -401,6 +403,11 @@ module Solutions
     2	sissy	June 21
     1	rebut	June 20
     0	cigar	June 19"
+
+    def self.pasted_solutions
+        @pasted_solutions
+    end
+
 end
 
 

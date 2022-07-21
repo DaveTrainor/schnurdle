@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require_relative 'solutionlist'
-include Solutions
+
 
 
 # class Data_gathering
@@ -25,7 +25,7 @@ get '/' do
 end
 
 def get_solution(game_number)
-    solutions_array = @pasted_solutions.split(" ")
+    solutions_array = Solutions.pasted_solutions.split(" ")
     solutions_array_2 = solutions_array.each_slice(4).to_a
     #solutions_array_2.each { |subarray| subarray.slice!(2..3)}
     solutions_hash = Hash[solutions_array_2.each { |subarray| subarray.slice!(2..3)}]
@@ -46,6 +46,6 @@ post '/game_reader' do
     #puts "first line english: #{first_line_english}"
     game_solution = get_solution(game_array[1])
     puts "Game solution: #{game_solution}"
-    erb:game_reader, :locals => {:game_ID=>game_array[1], :first_line=>first_line_english.to_s}
+    erb:game_reader, :locals => {:game_ID=>game_array[1], :first_line=>first_line_english.to_s, :solution=>game_solution}
 
 end
