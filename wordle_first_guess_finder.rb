@@ -31,17 +31,39 @@ def first_line_english(game_array)
 end
 
 def list_possible_guesses(solution, first_line_english)
-    solution.each { |char| }
+    possible_chars = [('a'..'z').to_a]*5
+    sol_arr = solution.scan /\w/
+    first_line_english.each_with_index {|square, i| 
+        if square == "green"
+            possible_chars[i] = solution[i]
+        elsif square =="yellow"
+            possible_chars[i] = sol_arr
+        else 
+            possible_chars[i].reject! {|char| sol_arr.index(char)}  
+        
+        end
+        }
+        possible_chars
+        print possible_chars
+
+
+
+
+end
+
+
 
 post '/game_reader' do
     
     game_string_dump = params[:game1].dump
     game_array = game_array(game_string_dump)
+    list_possible_guesses(get_solution(game_array[1]), first_line_english(game_array))
       
     erb:game_reader, :locals => {
         :game_ID=>game_number(game_array), 
         :first_line=>first_line_english(game_array).to_s, 
         :solution=>get_solution(game_array[1])
+        
     }
 
 end
