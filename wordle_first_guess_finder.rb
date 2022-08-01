@@ -32,20 +32,28 @@ def first_line_english(game_array)
 end
 
 def list_possible_characters(solution, first_line_english)
-    possible_chars = [('a'..'z').to_a]*5
+    possible_chars = [('a'..'z').to_a.join(),('a'..'z').to_a.join(),('a'..'z').to_a.join(),('a'..'z').to_a.join(),('a'..'z').to_a.join()]
+    possible_chars.each {|x| puts "#{x}"};
     sol_arr = solution.scan /\w/
+    sol_arr.each {|x| puts "#{x}"};
+    required_characters = []
     first_line_english.each_with_index {|square, i| 
+        puts "this loop: i = #{i} and square is #{square} \n"
         if square == "green"
-            possible_chars[i] = solution[i]
+            possible_chars[i] = sol_arr[i]
         elsif square =="yellow"
-            possible_chars[i] = sol_arr
-            possible_chars[i].reject! {|char| char == sol_arr[i]}
-        else 
-            possible_chars[i].reject! {|char| sol_arr.index(char)}  
-        
+            required_characters << sol_arr[i]
+            possible_chars[i] = sol_arr.join #each{|char| possible_chars[i] << char.dup}
+            possible_chars[i].delete! sol_arr[i]
+        elsif square == "grey"
+            possible_chars[i].delete! solution          
         end
         }
-    possible_chars.each {|char| print "#{char} \n"}
+    puts "required characters = #{required_characters.to_s}"
+    
+    possible_chars.push(required_characters.map{|x| x=x})
+    puts "possible_chars at end of loop:"
+    puts possible_chars.inspect
     return possible_chars
     
         
@@ -61,7 +69,8 @@ def find_matching_words(possible_chars)
         possible_chars[3].include?(word[3]) &&
         possible_chars[4].include?(word[4])}
          # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
-    print(possible_words)
+    possible_chars[5].each{|char| possible_words.select!{|word| word.include?(char.to_s)}};
+    possible_words
 end
 
 
@@ -72,13 +81,14 @@ post '/game_reader' do
     game_string_dump = params[:game1].dump
     game_array = game_array(game_string_dump)
     poss_chars = list_possible_characters(get_solution(game_array[1]), first_line_english(game_array))
-    find_matching_words(poss_chars) 
+    possible_words = find_matching_words(poss_chars).sort()
 
     erb:game_reader, :locals => {
         :game_ID=>game_number(game_array), 
         :first_line=>first_line_english(game_array).to_s, 
         :solution=>get_solution(game_array[1]),
-        :poss_chars=>poss_chars
+        :poss_chars=>poss_chars[0..-2].join("<br>"),
+        :poss_words=>possible_words.join(", ")
         
     }
 

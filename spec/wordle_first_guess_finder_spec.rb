@@ -11,11 +11,13 @@ describe 'rspec' do
     end
 end
 
-# describe 'get_game_info' do
-#     it 'returns a hash' do
-#         expect get_game_info("Wordle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩").should be_an_instance_of Hash
-#     end
-# end
+describe 'game_array' do
+    it 'returns an array' do
+        new_game_array = game_array("Wordle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩")
+        puts new_game_array
+        expect(new_game_array).to be_a Array
+    end
+end
 
 
 RSpec.describe "wordle" do
@@ -31,11 +33,11 @@ RSpec.describe "wordle" do
         expect(last_response.body).to include("Schnurdle")
     end
 
-    # it 'returns the game number' do
-    #     get '/game_reader'
-    #     #expect(last_response.body).to include("Wordle /\d{1,4}/")
-    #     expect(last_response.body).to include(/\AThe game is: \d{1,4}\Z/)
-    # end
+    it 'returns the game number' do
+        get '/game_reader'
+        #expect(last_response.body).to include("Wordle /\d{1,4}/")
+        expect(last_response.body).to include(/\AThe game is: \d{1,4}\Z/)
+    end
 
     
 
