@@ -37,7 +37,7 @@ def list_possible_characters(solution, guess_in_colours)
         if square == "green"
             possible_chars[i] = sol_arr[i]
         elsif square =="yellow"
-            possible_chars[i] = sol_arr.join #each{|char| possible_chars[i] << char.dup}
+            possible_chars[i] = sol_arr.join 
             possible_chars[i].delete! sol_arr[i]
         elsif square == "grey"
             possible_chars[i] = ('a'..'z').to_a.join()
@@ -63,19 +63,50 @@ end
 
 
 
-post '/game_reader' do
+post '/results_1' do
     
-    input = params[:game1].dump
-    game_array = game_array(input)
-    poss_chars = list_possible_characters(get_solution(game_array[1]), guess_in_colours(game_array))
-    possible_words = find_matching_words(poss_chars).sort()
+    input_1 = params[:game1].dump
+    game_array_1 = game_array(input_1)
+    @poss_chars_1 = list_possible_characters(get_solution(game_array_1[1]), guess_in_colours(game_array_1))
+    possible_words_1 = find_matching_words(poss_chars_1).sort()
 
-    erb:game_reader, :locals => {
-        :game_ID=>game_number(game_array), 
-        :first_line=>guess_in_colours(game_array).to_s, 
-        :solution=>get_solution(game_array[1]),
-        :poss_chars=>poss_chars.join("<br>"),
-        :poss_words=>possible_words.join(", ")
+    erb:results_1, :locals => {
+        :game_ID_1=>game_number(game_array_1), 
+        :first_line_1=>guess_in_colours(game_array_1).to_s, 
+        :solution_1=>get_solution(game_array_1[1]),
+        :poss_chars_1=>poss_chars_1.join("<br>"),
+        :poss_words_1=>possible_words_1.join(", ")
+        
+    }
+
+end
+
+
+def combine_poss_chars(poss_chars_1, poss_chars_2)
+    combined_chars = []
+    for i in 0..4 do
+        combined_chars[i] = @poss_chars_1[i] & poss_chars_2[i]
+    end
+    combined_chars
+end
+
+post '/results_2' do
+    
+    input_2 = params[:game2].dump
+    game_array_2 = game_array(input_2)
+    poss_chars_2 = list_possible_characters(get_solution(game_array_2[1]), guess_in_colours(game_array_2))
+    puts "######################### poss chars 1 #{@poss_chars_1.inspect}"
+    combined_chars_1_2 = combine_poss_chars(@poss_chars_1, poss_chars_2)
+    puts combined_chars_1_2.inspect
+    possible_words_2 = find_matching_words(combined_chars_1_2).sort()
+
+    erb:results_2, :locals => {
+        :game_ID_2=>game_number(game_array_2), 
+        :first_line_2=>guess_in_colours(game_array_2).to_s, 
+        :solution_2=>get_solution(game_array_2[1]),
+        :poss_chars_2=>poss_chars_2.join("<br>"),
+        :combined_chars_1_2=>combined_chars_1_2.join("<br>"),
+        :poss_words_2=>possible_words_2.join(", ")
         
     }
 
