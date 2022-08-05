@@ -14,9 +14,14 @@ end
 describe 'game_array' do
     it 'returns an array' do
         new_game_array = game_array("Wordle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩")
-        puts new_game_array
-        expect(new_game_array).to be_a Array
+        expect(new_game_array).to be_a MatchData
     end
+
+    it 'returns the game number at 1:' do
+        new_game_array = game_array("Wordle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩")
+        expect(new_game_array[1]).to eq('392')
+    end
+
 end
 
 
@@ -36,7 +41,7 @@ RSpec.describe "wordle" do
     it 'returns the game number' do
         get '/game_reader'
         #expect(last_response.body).to include("Wordle /\d{1,4}/")
-        expect(last_response.body).to include(/\AThe game is: \d{1,4}\Z/)
+        expect(last_response.body).to include(/\AThe game is: \d{1,4}\Z/).to_s
     end
 
     

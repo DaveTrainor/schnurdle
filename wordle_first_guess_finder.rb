@@ -14,8 +14,8 @@ def get_solution(game_number)
     solutions_hash[game_number]
 end
 
-def game_array (game_string_dump)
-    game_array = game_string_dump.match /Wordle (\d{1,3})\s+\S{2,4}\s+(\S+).+/
+def game_array (input)
+    input.match /Wordle (\d{1,3})\s+\S{2,4}\s+(\S+).+/
 end
 
 def game_number(game_array)
@@ -29,30 +29,22 @@ def guess_in_colours(game_array)
 end
 
 def list_possible_characters(solution, guess_in_colours)
-    possible_chars = [('a'..'z').to_a.join(),('a'..'z').to_a.join(),('a'..'z').to_a.join(),('a'..'z').to_a.join(),('a'..'z').to_a.join()]
-    possible_chars.each {|x| puts "#{x}"};
+    possible_chars = []
     sol_arr = solution.scan /\w/
-    sol_arr.each {|x| puts "#{x}"};
-    required_characters = []
+    
     guess_in_colours.each_with_index {|square, i| 
-        puts "this loop: i = #{i} and square is #{square} \n"
+        
         if square == "green"
             possible_chars[i] = sol_arr[i]
         elsif square =="yellow"
-            required_characters << sol_arr[i]
             possible_chars[i] = sol_arr.join #each{|char| possible_chars[i] << char.dup}
             possible_chars[i].delete! sol_arr[i]
         elsif square == "grey"
+            possible_chars[i] = ('a'..'z').to_a.join()
             possible_chars[i].delete! solution          
         end
-        }
-    puts "required characters = #{required_characters.to_s}"
-    
-    possible_chars.push(required_characters.map{|x| x=x})
-    puts "possible_chars at end of loop:"
-    puts possible_chars.inspect
-    return possible_chars
-    
+    }
+    return possible_chars   
         
 end
 
@@ -71,11 +63,10 @@ end
 
 
 
-
 post '/game_reader' do
     
-    game_string_dump = params[:game1].dump
-    game_array = game_array(game_string_dump)
+    input = params[:game1].dump
+    game_array = game_array(input)
     poss_chars = list_possible_characters(get_solution(game_array[1]), guess_in_colours(game_array))
     possible_words = find_matching_words(poss_chars).sort()
 
@@ -83,7 +74,7 @@ post '/game_reader' do
         :game_ID=>game_number(game_array), 
         :first_line=>guess_in_colours(game_array).to_s, 
         :solution=>get_solution(game_array[1]),
-        :poss_chars=>poss_chars[0..-2].join("<br>"),
+        :poss_chars=>poss_chars.join("<br>"),
         :poss_words=>possible_words.join(", ")
         
     }
