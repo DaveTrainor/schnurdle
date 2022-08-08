@@ -4,7 +4,25 @@ class Solutions
 
     @pasted_solutions =   #from https://game8.co/games/Wordle/archives/369779#hl_2
 
-    "396	trite	July 20
+    "414	smear	August 6
+    413	alien	August 6
+    412	buggy	August 5
+    411	rhyme	August 4
+    410	youth	August 3
+    409	coyly	August 2
+    408	quart	August 1
+    407	cramp	July 31
+    406	bluff	July 30
+    405	upset	July 29
+    404	stomp	July 28
+    403	motto	July 27
+    402	cinch	July 26
+    401	elope	July 25
+    400	power	July 24
+    399	midge	July 23
+    398	tryst	July 22
+    397	aphid	July 21
+    396	trite	July 20
     395	angry	July 19
     394	flock	July 18
     393	wacky	July 17
