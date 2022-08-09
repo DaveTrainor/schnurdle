@@ -118,9 +118,7 @@ post '/results_2' do
     solution_2 = get_solution(game_array_2[1])
     game_number_2 = game_number(game_array_2)
     poss_chars_2 = list_possible_characters(get_solution(game_array_2[1]), guess_in_colours(game_array_2))
-    puts "######################### poss chars 1 #{poss_chars_1.inspect} pc2 #{poss_chars_2.inspect}"
     combined_chars_1_2 = combine_poss_chars(poss_chars_1, poss_chars_2)
-    puts combined_chars_1_2.inspect
     possible_words_2 = find_matching_words(combined_chars_1_2).sort()
     
     
@@ -160,9 +158,7 @@ post '/results_3' do
     input_3 = params[:game3].dump
     game_array_3 = game_array(input_3)
     poss_chars_3 = list_possible_characters(get_solution(game_array_3[1]), guess_in_colours(game_array_3))
-    # puts "######################### poss chars 1 #{poss_chars_1.inspect} pc2 #{poss_chars_2.inspect}"
     combined_chars_1_2_3 = combine_poss_chars(combined_chars_1_2, poss_chars_3)
-    # puts combined_chars_1_2.inspect
     possible_words_3 = find_matching_words(combined_chars_1_2_3).sort()
     
     
