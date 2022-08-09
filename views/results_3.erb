@@ -40,10 +40,17 @@ body {
 <p  >You entered: <%=input_2.to_s%></p>
     <p text-align: centre >The game is: <%=game_number_2%></p>
     <p text-align: centre >The game solution is: <%=solution_2%></p>
-    <p text-align: centre >The array of possible characters from this game only is: <br><br> <%=poss_chars_2%></p>
+    <%# <p text-align: centre >The array of possible characters from this game only is: <br><br> <%=poss_chars_2%></p> %>
     <p text-align: centre >The array of possible characters from all games so far is: <br><br> <%=combined_chars_1_2%></p>
     <p text-align: centre >Given this information, the list of possible first guess words is: <br><br> <%=poss_words_2%></p>
 
+<h2> Game 3 </h2>
+<p  >You entered: <%=input_3.to_s%></p>
+    <p text-align: centre >The game is: <%=game_number_3%></p>
+    <p text-align: centre >The game solution is: <%=solution_3%></p>
+    <p text-align: centre >The array of possible characters from this game only is: <br><br> <%=poss_chars_3%></p>
+    <p text-align: centre >The array of possible characters from all games so far is: <br><br> <%=combined_chars_1_2_3%></p>
+    <p text-align: centre >Given this information, the list of possible first guess words is: <br><br> <%=poss_words_3%></p>
 
     <form align=center method="POST" action="/results_3">
         <p align=center >Paste another game here: <input type="text" name = "game3"/></p>
