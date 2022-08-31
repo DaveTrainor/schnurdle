@@ -2,7 +2,7 @@
 class Solutions
 
 
-    @pasted_solutions =   #from https://game8.co/games/Wordle/archives/369779#hl_2
+    @past_solutions =   #from https://game8.co/games/Wordle/archives/369779#hl_2
 
     "414	smear	August 6
     413	alien	August 6
@@ -422,8 +422,8 @@ class Solutions
     1	rebut	June 20
     0	cigar	June 19"
 
-    def self.pasted_solutions
-        @pasted_solutions
+    def self.past_solutions
+        @past_solutions
     end
 
 end

@@ -4,93 +4,93 @@ require_relative 'solutionlist'
 require_relative 'validwords'
 enable :sessions
 
-
-
 get '/' do
     erb:main
 end
 
-def get_solution(game_number)
-    solutions_array = Solutions.pasted_solutions.split(" ").each_slice(4).to_a
-    solutions_hash = Hash[solutions_array.each { |subarray| subarray.slice!(2..3)}]
-    solutions_hash[game_number]
-end
+class Game
+    def initialize (form_input)
+        @input_c = form_input
+    end
 
-def game_array (input)
-    input.match /Wordle (\d{1,3})\s+\S{2,4}\s+(\S+).+/
-end
+    def game_array
+        @input_c.match /Wordle (\d{1,3})\s+\S{2,4}\s+(\S+).+/
+    end
 
-def game_number(game_array)
-    game_array[1]
-end
+    def guess_expressed_in_colours
+        translation = {'u2B1C': 'grey', 'u{1F7E8}': 'yellow', 'u{1F7E9}': 'green'}
+        first_line_array = self.game_array[2].split('\\')
+        first_line_array[1..5].map {|square| translation[square.to_sym]}
+    end
 
-def guess_in_colours(game_array)
-    translation = {'u2B1C': 'grey', 'u{1F7E8}': 'yellow', 'u{1F7E9}': 'green'}
-    first_line_array = game_array[2].split('\\')
-    first_line_array[1..5].map {|square| translation[square.to_sym]}
-end
+    def game_number
+        game_array[1]
+    end
 
-def list_possible_characters(solution, guess_in_colours)
-    possible_chars = []
-    sol_arr = solution.scan /\w/
-    
-    guess_in_colours.each_with_index {|square, i| 
+    def get_solution
+        solutions_array = Solutions.past_solutions.split(" ").each_slice(4).to_a
+        solutions_hash = Hash[solutions_array.each { |subarray| subarray.slice!(2..3)}]
+        solutions_hash[self.game_number]
+    end
+
+ 
+    def get_possible_chars
+        possible_chars = []
+        sol_arr = self.get_solution.scan /\w/
         
-        if square == "green"
-            possible_chars[i] = sol_arr[i]
-        elsif square =="yellow"
-            possible_chars[i] = sol_arr.join 
-            possible_chars[i].delete! sol_arr[i]
-        elsif square == "grey"
-            possible_chars[i] = ('a'..'z').to_a.join()
-            possible_chars[i].delete! solution          
-        end
-    }
-    return possible_chars   
-        
-end
+        self.guess_expressed_in_colours.each_with_index {|square, i| 
+            
+            if square == "green"
+                possible_chars[i] = sol_arr[i]
+            elsif square =="yellow"
+                possible_chars[i] = sol_arr.join 
+                possible_chars[i].delete! sol_arr[i]
+            elsif square == "grey"
+                possible_chars[i] = ('a'..'z').to_a.join()
+                possible_chars[i].delete! self.get_solution          
+            end
+        }
+        return possible_chars   
+            
+    end
 
-def find_matching_words(possible_chars)
-    word_list_array = Valid_words.word_list.split(" ")
-    
-    possible_words = word_list_array.select {|word| 
-        possible_chars[0].include?(word[0]) &&
-        possible_chars[1].include?(word[1]) &&
-        possible_chars[2].include?(word[2]) &&
-        possible_chars[3].include?(word[3]) &&
-        possible_chars[4].include?(word[4])}
-         # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
-    possible_words
-end
+    def get_possible_words
+        word_list_array = Valid_words.word_list.split(" ")
+        possible_chars = self.get_possible_chars
+        possible_words = word_list_array.select {|word| 
+            possible_chars[0].include?(word[0]) &&
+            possible_chars[1].include?(word[1]) &&
+            possible_chars[2].include?(word[2]) &&
+            possible_chars[3].include?(word[3]) &&
+            possible_chars[4].include?(word[4])}
+             # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
+        possible_words.sort().join(", ")
+    end
 
+end
 
 
 post '/results_1' do
     
     input_1 = params[:game1].dump
-    game_array_1 = game_array(input_1)
-    first_line_1 = guess_in_colours(game_array_1).to_s
-    solution_1 = get_solution(game_array_1[1])
-    game_number_1 = game_number(game_array_1)
-    poss_chars_1 = list_possible_characters(get_solution(game_array_1[1]), guess_in_colours(game_array_1))
-    possible_words_1 = find_matching_words(poss_chars_1).sort()
-    
+    game_1 = Game.new(input_1)
+   
     # puts "line 78 #{session.inspect}"
-    session[:input_1] = input_1.undump
-    session[:poss_chars_1] = poss_chars_1
-    session[:game_number_1] = game_number_1
-    session[:solution_1] = solution_1
-    session[:first_line_1] = first_line_1
+    # session[:input_1] = input_1.undump
+    # session[:poss_chars_1] = poss_chars_1
+    # session[:game_number_1] = game_number_1
+    # session[:solution_1] = solution_1
+    # session[:first_line_1] = first_line_1
     # session[:poss_words_1] = possible_words_1
 
     # puts "line 84 #{session.inspect}"
-    
+
     erb:results_1, :locals => {
-        :game_number_1=>game_number_1, 
-        :first_line_1=>first_line_1, 
-        :solution_1=>solution_1,
-        :poss_chars_1=>poss_chars_1.join("<br>"),
-        :poss_words_1=>possible_words_1.join(", ")
+        :game_number_1=>game_1.game_number, 
+        :first_line_1=>game_1.guess_expressed_in_colours, 
+        :solution_1=>game_1.get_solution,
+        :poss_chars_1=>game_1.get_possible_chars.join("<br>"),
+        :poss_words_1=>game_1.get_possible_words
         
     }
 
