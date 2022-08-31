@@ -70,30 +70,59 @@ describe 'the_Game_class' do
         end
     end
 
-
-
-
-
-
-
-
-    
 end
 
 
+RSpec.describe "the pages" do
 
-RSpec.describe "wordle" do
     include Rack::Test::Methods
 
     def app
         Sinatra::Application
     end    
 
- 
-    it 'shows the main page' do
-        get '/'
-        expect(last_response.body).to include("Schnurdle")
+    describe "main page" do
+       
+        it 'returns status 200 OK'do
+            get "/"
+            expect(last_response.status).to eq 200
+        end
+
+        it 'shows the main page' do
+            get "/"
+            expect(last_response.body).to include("Schnurdle")
+        end
+
+       
     end
+
+    describe "results_1" do
+        
+        let!(:response) {post "/results_1",:game1 => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"}
+
+        it 'returns status 200 OK' do
+            expect(last_response.status).to eq 200
+        end
+
+        it 'contains the game number in the body' do
+            expect(last_response.body).to include("408")
+        end
+      
+    end
+
+    describe "results_2" do
+        let!(:response) {
+            post "/results_2",
+            :game2 => "Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩", 
+            session[:game1] => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+        
+        }
+        it 'returns status 200 OK' do
+            expect(last_response.status).to eq 200
+        end
+    end
+
+    
 
     # it 'returns the game number' do
     #     get '/results_1'
