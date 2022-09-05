@@ -3,6 +3,7 @@ ENV['APP_ENV'] = 'test'
 require_relative '../wordle_first_guess_finder'
 require 'rspec'
 require 'rack/test'
+require 'capybara/rspec'
 
 
 describe 'rspec' do
@@ -76,6 +77,8 @@ end
 RSpec.describe "the pages" do
 
     include Rack::Test::Methods
+    include Rack::Session
+    Capybara.app = Sinatra::Application
 
     def app
         Sinatra::Application
@@ -96,9 +99,20 @@ RSpec.describe "the pages" do
        
     end
 
-    describe "results_1" do
+    
+    describe "results_1", type: :feature do
+
+        it "does the capybara" do
+            visit "/"
+            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+            # click_button "submit"
+            expect(last_response.status).to eq 200
+            expect(last_response.body).to include "audio"
+        end
+
+
         
-        let!(:response) {post "/results_1",:game1 => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"}
+        let!(:response) {post "/results_1", :game1 => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"}
 
         it 'returns status 200 OK' do
             expect(last_response.status).to eq 200
@@ -110,13 +124,11 @@ RSpec.describe "the pages" do
       
     end
 
-    describe "results_2" do
-        let!(:response) {
-            post "/results_2",
-            :game2 => "Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩", 
-            session[:game1] => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+    describe "results_2", type: :feature do
         
-        }
+
+        let! (:response) {post "/results_2", :game2 => "Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩"}
+
         it 'returns status 200 OK' do
             expect(last_response.status).to eq 200
         end

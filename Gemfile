@@ -17,3 +17,5 @@ gem "sinatra-contrib", "~> 2.2"
 gem "rspec_junit_formatter", "~> 0.5.1"
 
 gem "rack-test", "~> 2.0"
+
+gem "capybara", "~> 3.36"
