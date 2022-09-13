@@ -58,6 +58,7 @@ class Game
             
     end
 
+    
     def get_possible_words
         word_list_array = Valid_words.word_list.split(" ")
         possible_chars = self.get_possible_chars
@@ -73,6 +74,30 @@ class Game
 
 end
 
+def combine_poss_chars(poss_chars_1, poss_chars_2)
+    poss_chars_1_arr = []
+    poss_chars_1.each {|str| poss_chars_1_arr.push str.split("")}
+    poss_chars_2_arr = []
+    poss_chars_2.each {|str| poss_chars_2_arr.push str.split("")}
+    combined_chars = []
+    for i in 0..4 do
+        combined_chars[i] = (poss_chars_1_arr[i] & poss_chars_2_arr[i]).join()
+    end
+    combined_chars
+end
+
+
+def get_possible_words(possible_chars)
+    word_list_array = Valid_words.word_list.split(" ")
+    possible_words = word_list_array.select {|word| 
+        possible_chars[0].include?(word[0]) &&
+        possible_chars[1].include?(word[1]) &&
+        possible_chars[2].include?(word[2]) &&
+        possible_chars[3].include?(word[3]) &&
+        possible_chars[4].include?(word[4])}
+         # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
+    possible_words.sort().join(", ")
+end
 
 post '/results_1' do
     
@@ -101,24 +126,15 @@ post '/results_1' do
 
 end
 
-def combine_poss_chars(poss_chars_1, poss_chars_2)
-    poss_chars_1_arr = []
-    poss_chars_1.each {|str| poss_chars_1_arr.push str.split("")}
-    poss_chars_2_arr = []
-    poss_chars_2.each {|str| poss_chars_2_arr.push str.split("")}
-    combined_chars = []
-    for i in 0..4 do
-        combined_chars[i] = (poss_chars_1_arr[i] & poss_chars_2_arr[i]).join()
-    end
-    combined_chars
-end
+
 
 post '/results_2' do
     game_1 = session[:game_1]
     puts "Session: #{session.inspect}"
     input_2 = params[:game2].dump
     game_2 = Game.new(input_2)
-
+    poss_chars_1 = game_1.get_possible_chars.join("<br>")
+    poss_chars_2 = game_2.get_possible_chars.join("<br>")
     combined_chars_1_2 = combine_poss_chars(game_1.get_possible_chars, game_2.get_possible_chars)
         
     session[:game_2] = game_2
@@ -129,16 +145,16 @@ post '/results_2' do
         :game_number_1=>game_1.game_number, 
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
-        :poss_chars_1=>game_1.get_possible_chars.join("<br>"),
-        :poss_words_1=>game_1.get_possible_words,
+        :poss_chars_1=>poss_chars_1,
+        :poss_words_1=>get_possible_words(poss_chars_1),
 
         :input_2=>game_2.input.undump,
         :game_number_2=>game_2.game_number, 
         :first_line_2=>game_2.guess_expressed_in_colours, 
         :solution_2=>game_2.get_solution,
-        :poss_chars_2=>game_2.get_possible_chars.join("<br>"),
+        :poss_chars_2=>poss_chars_2,
         :combined_chars_1_2=>combined_chars_1_2.join("<br>"),
-        :poss_words_2=>game_2.get_possible_words
+        :poss_words_2=>get_possible_words(combined_chars_1_2)
         
     }
 

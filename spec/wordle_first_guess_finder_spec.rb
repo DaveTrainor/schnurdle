@@ -102,15 +102,29 @@ RSpec.describe "the pages" do
     
     describe "results_1", type: :feature do
 
-        it "does the capybara" do
-            visit "/"
-            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-            # click_button "submit"
-            expect(last_response.status).to eq 200
-            expect(last_response.body).to include "audio"
+               
+            it "returns 200 from results_1" do
+                visit "/"
+                fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+                expect(last_response.status).to eq 200
+            end
+
+            it "returns the correct word list" do
+                visit "/"
+                fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+                expect(page).to have_content "audio"
+            end
+            
+            it "returns the correct game solution" do
+                visit "/"
+                fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+                expect(last_response.body).to include "quart"
+            end
+            
         end
+        
 
-
+    describe "results_1" do
         
         let!(:response) {post "/results_1", :game1 => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"}
 
@@ -123,25 +137,7 @@ RSpec.describe "the pages" do
         end
       
     end
-
-    describe "results_2", type: :feature do
-        
-
-        let! (:response) {post "/results_2", :game2 => "Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩"}
-
-        it 'returns status 200 OK' do
-            expect(last_response.status).to eq 200
-        end
-    end
-
     
-
-    # it 'returns the game number' do
-    #     get '/results_1'
-    #     #expect(last_response.body).to include("Wordle /\d{1,4}/")
-    #     expect(last_response.body).to include(/\AThe game is: \d{1,4}\Z/).to_s
-    # end
-
     
 
 
