@@ -13,6 +13,26 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+
+
+# require './lib/task-manager.rb'
+# require './lib/server.rb'
+require_relative '../wordle_first_guess_finder'
+require 'rspec'
+require 'rack/test'
+require 'capybara/rspec'
+
+ENV['APP_ENV'] = 'test'
+
+module RSpecMixin
+  include Rack::Test::Methods
+  def app
+    Sinatra::Application
+  end
+  Capybara.app = Sinatra::Application.new
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
