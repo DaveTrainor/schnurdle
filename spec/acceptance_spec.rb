@@ -32,38 +32,77 @@ RSpec.describe "the pages" do
         it "returns 200 from results_1" do
             visit "/"
             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-            click_button("")
+            click_button("Submit")
 
             expect(status_code).to eq 200   
         end
 
-        it "returns the correct word list in results_1" do
+        it "returns the correct content in results_1" do
             visit "/"
             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-            click_button("")
+            click_button("Submit")
 
             expect(page).to have_content "audio, ruddy"
             expect(page).to have_content "Paste another game here:"
+            expect(page).to have_content "You entered: Wordle 408"
         end
         
         it "returns the correct game solution in results_1" do
             visit "/"
             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-            post "/results_1"
+            click_button("Submit")
             
-            expect(last_response.body).to include "The game solution is: quart"
+            expect(page).to have_content "The game solution is: quart"
+            expect(page).not_to have_content "NoMethodError"
             
         end
             
-        it "does results_2" do
-            puts 'h1'
-            within "form" do
+        it "returns the correct content in results_2" do
+            visit "/"
+            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+            click_button("Submit")
             fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
-            click_button("")
-            end
-
+            click_button("Submit")
+            
             expect(page).to have_content "audio, ruddy, rugby"
             expect(page).to have_content "You entered: Wordle 410"
+            expect(page).not_to have_content "NoMethodError"
+        end
+
+        it "returns the correct content in results_3" do
+            visit "/"
+            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            within "form" do
+            fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            fill_in "game3", with: "Juliet Pearce: Wordle 412 3/6 ⬜🟩⬜⬜⬜ ⬜🟩⬜⬜⬜ 🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            end
+
+            expect(page).to have_content "audio"
+            expect(page).to have_content "You entered: Juliet Pearce: Wordle 412"
+            expect(page).not_to have_content "NoMethodError"
+            
+        end
+
+        it "returns the correct content in results_4" do
+            visit "/"
+            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            within "form" do
+            fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            fill_in "game3", with: "Juliet Pearce: Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩"
+            click_button("Submit")
+            fill_in "game4", with: "Juliet Pearce: Wordle 412 3/6 ⬜🟩⬜⬜⬜ ⬜🟩⬜⬜⬜ 🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            end
+
+            expect(page).to have_content "audio"
+            expect(page).to have_content "You entered: Juliet Pearce: Wordle 412"
+            expect(page).not_to have_content "NoMethodError"
+            
         end
 
     end

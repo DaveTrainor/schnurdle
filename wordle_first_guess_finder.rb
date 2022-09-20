@@ -146,7 +146,7 @@ post '/results_2' do
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
         :poss_chars_1=>poss_chars_1,
-        :poss_words_1=>get_possible_words(poss_chars_1),
+        :poss_words_1=>game_1.get_possible_words,
 
         :input_2=>game_2.input.undump,
         :game_number_2=>game_2.game_number, 
@@ -154,50 +154,108 @@ post '/results_2' do
         :solution_2=>game_2.get_solution,
         :poss_chars_2=>poss_chars_2,
         :combined_chars_1_2=>combined_chars_1_2.join("<br>"),
-        :poss_words_2=>get_possible_words(combined_chars_1_2)
+        :poss_words_1_2=>get_possible_words(combined_chars_1_2)
         
     }
 
 end
 
 post '/results_3' do
-    poss_chars_1 = session[:poss_chars_1]
-    poss_words_1 = find_matching_words(poss_chars_1).sort()
-
-    combined_chars_1_2 = session[:combined_chars_1_2]
-    poss_words_2 = find_matching_words(combined_chars_1_2).sort()
-
+    game_1 = session[:game_1]
+    game_2 = session[:game_2]
     input_3 = params[:game3].dump
-    game_array_3 = game_array(input_3)
-    poss_chars_3 = list_possible_characters(get_solution(game_array_3[1]), guess_in_colours(game_array_3))
-    combined_chars_1_2_3 = combine_poss_chars(combined_chars_1_2, poss_chars_3)
-    possible_words_3 = find_matching_words(combined_chars_1_2_3).sort()
-    
-    
+    game_3 = Game.new(input_3)
+    session[:game_3] = game_3
+
+    poss_chars_1 = game_1.get_possible_chars.join("<br>")
+    poss_chars_2 = game_2.get_possible_chars.join("<br>")
+    poss_chars_3 = game_3.get_possible_chars.join("<br>")
+    combined_chars_1_2 = combine_poss_chars(game_1.get_possible_chars, game_2.get_possible_chars)
+    combined_chars_1_2_3 = combine_poss_chars(combined_chars_1_2, game_3.get_possible_chars)
+ 
 
     erb:results_3, :locals => {
-        :input_1=>session[:input_1],
-        :game_number_1=>session[:game_number_1],
-        :solution_1=>session[:solution_1],
-        :first_line_1=>session[:first_line_1],
-        :poss_chars_1=>poss_chars_1.join("<br>"),
-        :poss_words_1=>poss_words_1.join(", "),
-        
-        :input_2=>session[:input_2],
-        :game_number_2=>session[:game_number_2],
-        :solution_2=>session[:solution_2],
-        :first_line_2=>session[:first_line_2],
+  
+        :input_1=>game_1.input.undump,
+        :game_number_1=>game_1.game_number, 
+        :first_line_1=>game_1.guess_expressed_in_colours, 
+        :solution_1=>game_1.get_solution,
+        :poss_chars_1=>poss_chars_1,
+        :poss_words_1=>game_1.get_possible_words,
+
+        :input_2=>game_2.input.undump,
+        :game_number_2=>game_2.game_number, 
+        :first_line_2=>game_2.guess_expressed_in_colours, 
+        :solution_2=>game_2.get_solution,
+        :poss_chars_2=>poss_chars_2,
         :combined_chars_1_2=>combined_chars_1_2.join("<br>"),
-        :poss_words_2=>poss_words_2.join(", "),
-        
-        :input_3=>input_3.undump,
-        :game_number_3=>game_number(game_array_3), 
-        :first_line_3=>guess_in_colours(game_array_3).to_s, 
-        :solution_3=>get_solution(game_array_3[1]),
-        :poss_chars_3=>poss_chars_3.join("<br>"),
+        :poss_words_1_2=>get_possible_words(combined_chars_1_2),
+
+        :input_3=>game_3.input.undump,
+        :game_number_3=>game_3.game_number, 
+        :first_line_3=>game_3.guess_expressed_in_colours, 
+        :solution_3=>game_3.get_solution,
+        :poss_chars_3=>poss_chars_3,
         :combined_chars_1_2_3=>combined_chars_1_2_3.join("<br>"),
-        :poss_words_3=>possible_words_3.join(", ")
+        :poss_words_1_2_3=>get_possible_words(combined_chars_1_2_3)
         
     }
+
+end
+
+
+post '/results_4' do
+    game_1 = session[:game_1]
+    game_2 = session[:game_2]
+    game_3 = session[:game_3]
+    input_4 = params[:game4].dump
+    game_4 = Game.new(input_4)
+
+    poss_chars_1 = game_1.get_possible_chars.join("<br>")
+    poss_chars_2 = game_2.get_possible_chars.join("<br>")
+    poss_chars_3 = game_3.get_possible_chars.join("<br>")
+    poss_chars_4 = game_4.get_possible_chars.join("<br>")
+    combined_chars_1_2 = combine_poss_chars(game_1.get_possible_chars, game_2.get_possible_chars)
+    combined_chars_1_2_3 = combine_poss_chars(combined_chars_1_2, game_3.get_possible_chars)
+    combined_chars_1_4 = combine_poss_chars(combined_chars_1_2_3, game_4.get_possible_chars)
+    
+
+    erb:results_4, :locals => {
+    
+        :input_1=>game_1.input.undump,
+        :game_number_1=>game_1.game_number, 
+        :first_line_1=>game_1.guess_expressed_in_colours, 
+        :solution_1=>game_1.get_solution,
+        :poss_chars_1=>poss_chars_1,
+        :poss_words_1=>game_1.get_possible_words,
+
+        :input_2=>game_2.input.undump,
+        :game_number_2=>game_2.game_number, 
+        :first_line_2=>game_2.guess_expressed_in_colours, 
+        :solution_2=>game_2.get_solution,
+        :poss_chars_2=>poss_chars_2,
+        :combined_chars_1_2=>combined_chars_1_2.join("<br>"),
+        :poss_words_1_2=>get_possible_words(combined_chars_1_2),
+
+        :input_3=>game_3.input.undump,
+        :game_number_3=>game_3.game_number, 
+        :first_line_3=>game_3.guess_expressed_in_colours, 
+        :solution_3=>game_3.get_solution,
+        :poss_chars_3=>poss_chars_3,
+        :combined_chars_1_2_3=>combined_chars_1_2_3.join("<br>"),
+        :poss_words_1_2_3=>get_possible_words(combined_chars_1_2_3),
+
+        :input_4=>game_4.input.undump,
+        :game_number_4=>game_4.game_number, 
+        :first_line_4=>game_4.guess_expressed_in_colours, 
+        :solution_4=>game_4.get_solution,
+        :poss_chars_4=>poss_chars_4,
+        :combined_chars_1_4=>combined_chars_1_4.join("<br>"),
+        :poss_words_1_4=>get_possible_words(combined_chars_1_4)
+        
+    }
+
+
+
 
 end

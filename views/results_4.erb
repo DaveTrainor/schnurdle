@@ -53,9 +53,18 @@ body {
     <p text-align: centre >The array of possible characters from all games so far is: <br><br> <%=combined_chars_1_2_3%></p>
     <p text-align: centre >Given this information, the list of possible first guess words is: <br><br> <%=poss_words_1_2_3%></p>
 
-    <form align=center method="POST" action="/results_4">
-        <p align=center >Paste another game here: <input type="text" name = "game4"/></p>
-        <input type="submit" value="Submit"/>
-    </form>
+<h2> Game 4 </h2>
+<p  >You entered: <%=input_4.to_s%></p>
+    <p text-align: centre >The game is: <%=game_number_4%></p>
+    <p text-align: centre >The game solution is: <%=solution_4%></p>
+    <p text-align: centre >The array of possible characters from this game only is: <br><br> <%=poss_chars_4%></p>
+    <p text-align: centre >The array of possible characters from all games so far is: <br><br> <%=combined_chars_1_4%></p>
+    <p text-align: centre >Given this information, the list of possible first guess words is: <br><br> <%=poss_words_1_4%></p>
+
+
+    <%# <form align=center method="POST" action="/results_3">
+        <p align=center >Paste another game here: <input type="text" name = "game3"/></p>
+        <input type="submit" value="submit_input_3"/>
+    </form> %>
 </body>
 </html>
