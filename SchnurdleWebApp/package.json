@@ -1,0 +1,10 @@
+{
+  "scripts": {
+  "start": "bundle exec ruby wordle_first_guess_finder.rb"
+},
+
+  "dependencies": {
+    "aws-cdk": "^2.44.0",
+    "aws-cdk-lib": "^2.44.0"
+  }
+}
