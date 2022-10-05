@@ -6,8 +6,6 @@ Incomplete: Only accepts one wordle game at the moment, and numerous issues to r
 
 ### Questions / Issues:
 
-- Testing: TDD went out the window :-( 
-    I felt like it was slowing me down and i was over-excited. Recovery plan needed!
 
 - Refactoring:
     - naming of methods is difficult to follow i think?!
