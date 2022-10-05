@@ -1,0 +1,44 @@
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+<style>
+  h1 {
+    font-family: "Lobster"; 
+    font-size: 3em; 
+    color:DeepPink; 
+    background:lime; 
+    text-align: center
+  }
+
+  /* .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; */
+}
+
+body {
+  width: 60%;
+  left-padding: 30%;
+  text-align: left;
+  
+
+}
+</style>
+</head>
+
+<html>
+<h1> Schnurdle </h1>
+<body>
+<h2> Game 1 </h2>
+    <p  >You entered: <%=params[:game1].to_s%></p>
+    <p text-align: centre >The game is: <%=game_number_1%></p>
+    <p text-align: centre >The game solution is: <%=solution_1%></p>
+    <p text-align: centre >The array of possible characters is: <br> <%=poss_chars_1%></p>
+    <p text-align: centre >Given this information, the list of possible first guess words is: <br> <%=poss_words_1%></p>
+
+    <form align=center method="POST" action="/results_2">
+        <p align=center >Paste another game here: <input type="text" name = "game2"/></p>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>
