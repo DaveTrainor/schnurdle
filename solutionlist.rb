@@ -4,7 +4,73 @@ class Solutions
 
     @past_solutions =   #from https://game8.co/games/Wordle/archives/369779#hl_2
 
-    "414	smear	August 6
+   "480	IONIC	October 12
+   479	VALID	October 11
+   478	ENJOY	October 10
+   477	HOWDY	October 9
+   476	VIGOR	October 8
+   475	DANDY	October 7
+   474	SLOTH	October 6
+   473	MARSH	October 5
+   472	BOUGH	October 4
+   471	STING	October 3
+   470	TWINE	October 2
+   469	LEAVE	October 1
+   468	SCORN	September 30
+   467	SCALD	September 29
+   466	USURP	September 28
+   465	SOGGY	September 27
+   464	BRISK	September 26
+   463	ADMIT	September 25
+   462	GRATE	September 24
+   461	GLORY	September 23
+   460	SAINT	September 22
+   459	RECAP	September 21
+   458	ALIKE	September 20
+   457	TRICE	September 19
+   456	STICK	September 18
+   455	CHUTE	September 17
+   454	PARER	September 16
+   453	DOUBT	September 15
+   452	THYME	September 14
+   451	ALPHA	September 13
+   450	BOOZE	September 12
+   449	TIBIA	September 11
+   448	LOFTY	September 10
+   447	THEME	September 9
+   446	CLASS	September 8
+   445	LEERY	September 7
+   444	TAUNT	September 6
+   443	WHOOP	September 5
+   442	INTER	September 4
+   441	GULLY	September 3
+   440	CHARM	September 2
+   439	FUNGI	September 1
+   438	PRIZE	August 31
+   437	ONSET	August 30
+   436	CHIEF	August 29
+   435	GAUZE	August 28
+   434	RUDER	August 27
+   433	IRONY	August 26
+   432	CLOWN	August 25
+   431	NEEDY	August 24
+   430	WOVEN	August 23
+   429	MERIT	August 22
+   428	WASTE	August 21
+   427	TREAT	August 20
+   426	SHRUG	August 19
+   425	TWANG	August 18
+   424	TWICE	August 17
+   423	GRUEL	August 16
+   422	POKER	August 15
+   421	KHAKI	August 14
+   420	HUNKY	August 13
+   419	LABEL	August 12
+   418	GLEAN	August 11
+   417	CLING	August 10
+   416	PATTY	August 9
+   415	UNFIT	August 8
+   414	smear	August 7
     413	alien	August 6
     412	buggy	August 5
     411	rhyme	August 4
@@ -26,7 +92,7 @@ class Solutions
     395	angry	July 19
     394	flock	July 18
     393	wacky	July 17
-    392	roomy	July 16
+    392	ROOMY	July 16
     391	wedge	July 15
     390	liver	July 14
     389	bland	July 13

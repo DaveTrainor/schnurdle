@@ -2,17 +2,19 @@
 
 Paste in your wordle results and this app will attempt to establish what word you use for your first guess
 
-Incomplete: Only accepts one wordle game at the moment, and numerous issues to resolve.
+Incomplete:
+- Needs error handling
+- Looks terrible at the moment, lots CSS needed!
+
+### Features to add
+- error handling!
+- ability to flag up incompatible character lists (ie first-guess has changed from one game to the next)
+
+### Notes
+- Running on Elastic Beanstalk, built using CloudFormation via the CDK.
+    - git archive -v -o ../schnurdle-elb-infra/gitapp.zip --format=zip HEAD zip package up for deployment
+    - npx cdk deploy - push new app version
 
 ### Questions / Issues:
 
-- Testing: TDD went out the window :-( 
-    I felt like it was slowing me down and i was over-excited. Recovery plan needed!
-
-- Refactoring:
-    - naming of methods is difficult to follow i think?!
-    - methods to break into smaller methods:
-        - list_possible_characters (this is large and horrible and needs work!)
-        - get_solution ?
-    - the way methods are called is inconsistent in post '/game_reader' do, not sure what is the best way to do this
-    - variable names and method names overlap in a horrible way
+- How to update part of the page instead of rendering a new page for every new bit of results

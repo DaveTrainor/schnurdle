@@ -34,7 +34,7 @@ class Game
     def get_solution
         solutions_array = Solutions.past_solutions.split(" ").each_slice(4).to_a
         solutions_hash = Hash[solutions_array.each { |subarray| subarray.slice!(2..3)}]
-        solutions_hash[self.game_number]
+        solutions_hash[self.game_number].downcase
     end
 
  
