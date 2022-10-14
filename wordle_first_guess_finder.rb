@@ -29,8 +29,6 @@ class Game
     end
 
     
-        
-
     def game_number
         game_array[1]
     end
@@ -65,7 +63,7 @@ class Game
 
     
     def get_possible_words
-        word_list_array = Valid_words.word_list.split(" ")
+        word_list_array = Valid_words.extended_list.split(" ")
         possible_chars = self.get_possible_chars
         possible_words = word_list_array.select {|word| 
             possible_chars[0].include?(word[0]) &&
@@ -92,17 +90,17 @@ def combine_poss_chars(poss_chars_1, poss_chars_2)
 end
 
 
-def get_possible_words(possible_chars)
-    word_list_array = Valid_words.word_list.split(" ")
-    possible_words = word_list_array.select {|word| 
-        possible_chars[0].include?(word[0]) &&
-        possible_chars[1].include?(word[1]) &&
-        possible_chars[2].include?(word[2]) &&
-        possible_chars[3].include?(word[3]) &&
-        possible_chars[4].include?(word[4])}
-         # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
-    possible_words.sort().join(", ")
-end
+# def get_possible_words(possible_chars)
+#     word_list_array = Valid_words.word_list.split(" ")
+#     possible_words = word_list_array.select {|word| 
+#         possible_chars[0].include?(word[0]) &&
+#         possible_chars[1].include?(word[1]) &&
+#         possible_chars[2].include?(word[2]) &&
+#         possible_chars[3].include?(word[3]) &&
+#         possible_chars[4].include?(word[4])}
+#          # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
+#     possible_words.sort().join(", ")
+# end
 
 post '/results_1' do
     begin
@@ -110,16 +108,6 @@ post '/results_1' do
     input_1 = params[:game1].dump
     game_1 = Game.new(input_1)
     session[:game_1] = game_1
-
-    # puts "line 78 #{session.inspect}"
-    # session[:input_1] = input_1.undump
-    # session[:poss_chars_1] = poss_chars_1
-    # session[:game_number_1] = game_number_1
-    # session[:solution_1] = solution_1
-    # session[:first_line_1] = first_line_1
-    # session[:poss_words_1] = possible_words_1
-
-    # puts "line 84 #{session.inspect}"
 
     erb:results_1st, :locals => {
         :game_number_1=>game_1.game_number, 
@@ -130,7 +118,7 @@ post '/results_1' do
         
     }
     rescue
-        erb:invalid_input
+       erb:invalid_input
     
     end
 
