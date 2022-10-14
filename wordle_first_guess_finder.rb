@@ -17,6 +17,7 @@ class Game
         @input_c
     end
 
+    
     def game_array
         @input_c.match /Wordle (\d{1,3})\s+\S{2,4}\s+(\S+).+/
     end
@@ -27,9 +28,13 @@ class Game
         first_line_array[1..5].map {|square| translation[square.to_sym]}
     end
 
+    
+        
+
     def game_number
         game_array[1]
     end
+    
 
     def get_solution
         solutions_array = Solutions.past_solutions.split(" ").each_slice(4).to_a
@@ -100,7 +105,8 @@ def get_possible_words(possible_chars)
 end
 
 post '/results_1' do
-    
+    begin
+
     input_1 = params[:game1].dump
     game_1 = Game.new(input_1)
     session[:game_1] = game_1
@@ -115,7 +121,7 @@ post '/results_1' do
 
     # puts "line 84 #{session.inspect}"
 
-    erb:results_1, :locals => {
+    erb:results_1st, :locals => {
         :game_number_1=>game_1.game_number, 
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
@@ -123,6 +129,10 @@ post '/results_1' do
         :poss_words_1=>game_1.get_possible_words
         
     }
+    rescue
+        erb:invalid_input
+    
+    end
 
 end
 

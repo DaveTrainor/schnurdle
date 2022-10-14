@@ -11,6 +11,7 @@ end
 describe 'the_Game_class' do
     
     test_game = Game.new(("Wordle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩").dump)
+    bad_test_game = Game.new(("rdle 392 3/6 ⬜🟨⬜🟩⬜ ⬜⬜⬜🟩⬜ 🟩🟩🟩🟩🟩").dump)
         
     describe 'game_array' do
         it 'returns an array' do
@@ -35,8 +36,16 @@ describe 'the_Game_class' do
     describe 'game_number' do
         it 'returns correct number' do
             expect(test_game.game_number).to eq('392')
+            
         end
     end
+
+    describe 'catching invalid input errors' do
+        it 'returns invalid input!' do
+            expect(bad_test_game.game_number).to eq('Invalid input!')
+        end
+    end
+
 
     describe 'get_solution' do
         it 'returns the right solution' do
