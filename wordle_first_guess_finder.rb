@@ -5,7 +5,9 @@ require_relative 'validwords'
 enable :sessions
 
 get '/' do
-    erb:main
+    erb:main, :locals=> {
+        :error_message=>""
+    }
 end
 
 class Game
@@ -104,7 +106,7 @@ end
 
 post '/results_1' do
 
-    # begin
+    begin
 
     input_1 = params[:game1].dump
     game_1 = Game.new(input_1)
@@ -119,10 +121,12 @@ post '/results_1' do
         :poss_words_1=>get_possible_words(poss_chars_1)
         
     }
-    # rescue
-    #    erb:invalid_input
-    
-    # end
+    rescue
+       erb:main, :locals => {
+           :error_message=>"invalid_input"
+       }
+        # erb:invalid_input
+    end
 
 end
 
