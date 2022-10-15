@@ -62,18 +62,18 @@ class Game
     end
 
     
-    def get_possible_words
-        word_list_array = Valid_words.extended_list.split(" ")
-        possible_chars = self.get_possible_chars
-        possible_words = word_list_array.select {|word| 
-            possible_chars[0].include?(word[0]) &&
-            possible_chars[1].include?(word[1]) &&
-            possible_chars[2].include?(word[2]) &&
-            possible_chars[3].include?(word[3]) &&
-            possible_chars[4].include?(word[4])}
-             # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
-        possible_words.sort().join(", ")
-    end
+    # def get_possible_words
+    #     word_list_array = Valid_words.extended_list.split(" ")
+    #     possible_chars = self.get_possible_chars
+    #     possible_words = word_list_array.select {|word| 
+    #         possible_chars[0].include?(word[0]) &&
+    #         possible_chars[1].include?(word[1]) &&
+    #         possible_chars[2].include?(word[2]) &&
+    #         possible_chars[3].include?(word[3]) &&
+    #         possible_chars[4].include?(word[4])}
+    #          # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
+    #     possible_words.sort().join(", ")
+    # end
 
 end
 
@@ -90,37 +90,39 @@ def combine_poss_chars(poss_chars_1, poss_chars_2)
 end
 
 
-# def get_possible_words(possible_chars)
-#     word_list_array = Valid_words.word_list.split(" ")
-#     possible_words = word_list_array.select {|word| 
-#         possible_chars[0].include?(word[0]) &&
-#         possible_chars[1].include?(word[1]) &&
-#         possible_chars[2].include?(word[2]) &&
-#         possible_chars[3].include?(word[3]) &&
-#         possible_chars[4].include?(word[4])}
-#          # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
-#     possible_words.sort().join(", ")
-# end
+def get_possible_words(possible_chars)
+    word_list_array = Valid_words.extended_list.split(" ")
+    possible_words = word_list_array.select {|word| 
+        possible_chars[0].include?(word[0]) &&
+        possible_chars[1].include?(word[1]) &&
+        possible_chars[2].include?(word[2]) &&
+        possible_chars[3].include?(word[3]) &&
+        possible_chars[4].include?(word[4])}
+         # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
+    possible_words.sort().join(", ")
+end
 
 post '/results_1' do
-    begin
+
+    # begin
 
     input_1 = params[:game1].dump
     game_1 = Game.new(input_1)
+    poss_chars_1 = game_1.get_possible_chars
     session[:game_1] = game_1
 
     erb:results_1st, :locals => {
         :game_number_1=>game_1.game_number, 
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
-        :poss_chars_1=>game_1.get_possible_chars.join("<br>"),
-        :poss_words_1=>game_1.get_possible_words
+        :poss_chars_1=>poss_chars_1.join("<br>"),
+        :poss_words_1=>get_possible_words(poss_chars_1)
         
     }
-    rescue
-       erb:invalid_input
+    # rescue
+    #    erb:invalid_input
     
-    end
+    # end
 
 end
 
@@ -144,7 +146,7 @@ post '/results_2' do
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
         :poss_chars_1=>poss_chars_1,
-        :poss_words_1=>game_1.get_possible_words,
+        :poss_words_1=>get_possible_words(poss_chars_1),
 
         :input_2=>game_2.input.undump,
         :game_number_2=>game_2.game_number, 
@@ -179,7 +181,7 @@ post '/results_3' do
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
         :poss_chars_1=>poss_chars_1,
-        :poss_words_1=>game_1.get_possible_words,
+        :poss_words_1=>get_possible_words(poss_chars_1),
 
         :input_2=>game_2.input.undump,
         :game_number_2=>game_2.game_number, 
@@ -225,7 +227,7 @@ post '/results_4' do
         :first_line_1=>game_1.guess_expressed_in_colours, 
         :solution_1=>game_1.get_solution,
         :poss_chars_1=>poss_chars_1,
-        :poss_words_1=>game_1.get_possible_words,
+        :poss_words_1=>get_possible_words(poss_chars_1),
 
         :input_2=>game_2.input.undump,
         :game_number_2=>game_2.game_number, 
