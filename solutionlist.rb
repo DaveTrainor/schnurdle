@@ -2,9 +2,14 @@
 class Solutions
 
 
-    @past_solutions =   #from https://game8.co/games/Wordle/archives/369779#hl_2
+    @past_solutions =   #from https://wordfinder.yourdictionary.com/wordle/answers/ (previously https://game8.co/games/Wordle/archives/369779#hl_2)
 
-   "480	IONIC	October 12
+
+   "484	SPADE	October 16
+   483	CATCH	October 15
+   482	FLOOR	October 14
+   481	EQUAL	October 13
+   480	IONIC	October 12
    479	VALID	October 11
    478	ENJOY	October 10
    477	HOWDY	October 9
