@@ -4,7 +4,7 @@ RSpec.describe "the pages" do
 
     describe "main page" do
        
-        it 'returns status 200 OK'do
+        it 'returns status 200 OK' do
             get "/"
             expect(last_response.status).to eq 200
         end
@@ -14,13 +14,7 @@ RSpec.describe "the pages" do
             expect(last_response.body).to include("Schnurdle")
         end
 
-        it 'returns an error message if an invalid input is entered' do
-            visit "/"
-            fill_in "game1", with: "dle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-            click_button("Submit")
-
-            expect(page).to have_content "Sorry what?"
-        end
+        
     end
 
     
@@ -74,12 +68,29 @@ RSpec.describe "the pages" do
             visit "/"
             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
             click_button("Submit")
-            within "form" do
             fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
             click_button("Submit")
             fill_in "game3", with: "Juliet Pearce: Wordle 412 3/6 ⬜🟩⬜⬜⬜ ⬜🟩⬜⬜⬜ 🟩🟩🟩🟩🟩"
             click_button("Submit")
-            end
+            expect(page).to have_content "audio"
+            expect(page).to have_content "You entered: Juliet Pearce: Wordle 412"
+            expect(page).not_to have_content "Error"
+            expect(page).not_to have_content "Sorry what?"
+                        
+        end
+
+        it "returns the correct content in results_4" do
+
+            visit "/"
+            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            fill_in "game3", with: "Juliet Pearce: Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩"
+            click_button("Submit")
+            fill_in "game4", with: "Juliet Pearce: Wordle 412 3/6 ⬜🟩⬜⬜⬜ ⬜🟩⬜⬜⬜ 🟩🟩🟩🟩🟩"
+            click_button("Submit")
+            
 
             expect(page).to have_content "audio"
             expect(page).to have_content "You entered: Juliet Pearce: Wordle 412"
@@ -87,23 +98,49 @@ RSpec.describe "the pages" do
             
         end
 
-        it "returns the correct content in results_4" do
-            visit "/"
-            fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-            click_button("Submit")
-            within "form" do
-            fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
-            click_button("Submit")
-            fill_in "game3", with: "Juliet Pearce: Wordle 409 X/6 ⬜⬜⬜⬜🟨 ⬜⬜⬜🟨⬜ ⬜⬜🟨⬜⬜ ⬜⬜🟨🟩⬜ ⬜🟩⬜🟩🟩 🟩🟩⬜🟩🟩"
-            click_button("Submit")
-            fill_in "game4", with: "Juliet Pearce: Wordle 412 3/6 ⬜🟩⬜⬜⬜ ⬜🟩⬜⬜⬜ 🟩🟩🟩🟩🟩"
-            click_button("Submit")
-            end
+    end
 
-            expect(page).to have_content "audio"
-            expect(page).to have_content "You entered: Juliet Pearce: Wordle 412"
-            expect(page).not_to have_content "NoMethodError"
-            
+    describe "Error handling" do
+        
+        context "main page" do 
+            it 'returns an error message if an invalid input is entered' do
+                visit "/"
+                fill_in "game1", with: "dle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+                
+                click_button("Submit")
+                expect(page).to have_content "Sorry what?"
+            end
+        end
+
+        context "results_1" do
+            it "returns an error message if an invalid input is entered" do
+
+                visit "/"
+                fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+                click_button("Submit")
+                fill_in "game2", with: "bleurgh"
+                click_button("Submit")
+                
+                expect(page).to have_content "Sorry what?"
+                expect(page).not_to have_content "NoMethodError"
+            end   
+        end
+
+        context "results_2" do
+
+            it "returns an error message if an invalid input is entered" do
+
+                visit "/"
+                fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+                click_button("Submit")
+                fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
+                click_button("Submit")
+                fill_in "game3", with: "hecky thump"
+                click_button("Submit")
+
+                expect(page).to have_content "Sorry what?"
+                expect(page).not_to have_content "NoMethodError"
+            end   
         end
 
     end
@@ -123,9 +160,5 @@ RSpec.describe "the pages" do
 
         
         end
-
-      
-      
     end
-    
-end
+end 
