@@ -12,8 +12,9 @@ Incomplete:
 
 ### Notes
 - Running on Elastic Beanstalk, built using CloudFormation via the CDK.
-    - git archive -v -o ../schnurdle-elb-infra/gitapp.zip --format=zip HEAD zip package up for deployment
-    - npx cdk deploy - push new app version
+    - To zip package up for deployment: git archive -v -o ../schnurdle-elb-infra/gitapp.zip --format=zip HEAD 
+    - To push new app version: npx cdk deploy
+    - To run solution scraper: bundle exec ruby  -r "./solution_scraper.rb" -e "SolutionScraper.scrape_solutions" 
 
 ### Questions / Issues:
 

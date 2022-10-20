@@ -2,14 +2,6 @@ require 'capybara_helper'
 
 RSpec.describe "the pages" do
 
-    # include Rack::Test::Methods
-    # include Rack::Session
-    # Capybara.app = Sinatra::Application
-
-    # def app
-    #     Sinatra::Application
-    # end    
-
     describe "main page" do
        
         it 'returns status 200 OK'do
@@ -22,11 +14,17 @@ RSpec.describe "the pages" do
             expect(last_response.body).to include("Schnurdle")
         end
 
-       
+        it 'returns an error message if an invalid input is entered' do
+            visit "/"
+            fill_in "game1", with: "dle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
+            click_button("Submit")
+
+            expect(page).to have_content "Sorry what?"
+        end
     end
 
     
-    describe "happy_path", type: :feature do
+    describe "happy_path" do
 
                
         it "returns 200 from results_1" do
@@ -42,7 +40,8 @@ RSpec.describe "the pages" do
             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
             click_button("Submit")
 
-            expect(page).to have_content "audio, ruddy"
+            expect(page).to have_content "audio"
+            expect(page).to have_content "ruddy"
             expect(page).to have_content "Paste another game here:"
             expect(page).to have_content "You entered: Wordle 408"
         end
@@ -64,7 +63,9 @@ RSpec.describe "the pages" do
             fill_in "game2", with: "Wordle 410 4/6 ⬜🟨⬜⬜🟨 ⬜🟨🟨🟨⬜ ⬜🟩🟩🟩🟨 🟩🟩🟩🟩🟩"
             click_button("Submit")
             
-            expect(page).to have_content "audio, ruddy, rugby"
+            expect(page).to have_content "audio" 
+            expect(page).to have_content "ruddy"
+            expect(page).to have_content "rugby"
             expect(page).to have_content "You entered: Wordle 410"
             expect(page).not_to have_content "NoMethodError"
         end
@@ -122,12 +123,9 @@ RSpec.describe "the pages" do
 
         
         end
+
+      
       
     end
     
-
-
-
-
-
 end

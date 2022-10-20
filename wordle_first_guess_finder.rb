@@ -1,10 +1,19 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require_relative 'solutionlist'
+require_relative 'solution_scraper'
 require_relative 'validwords'
+require_relative 'solution_list'
+
 enable :sessions
 
+
 get '/' do
+    if Time.now >= Time.at(Solution_list.time_updated+(60*60))
+        SolutionScraper.scrape_solutions
+        
+    end
+
     erb:main, :locals=> {
         :error_message=>""
     }
@@ -34,12 +43,9 @@ class Game
     def game_number
         game_array[1]
     end
-    
-
+  
     def get_solution
-        solutions_array = Solutions.past_solutions.split(" ").each_slice(4).to_a
-        solutions_hash = Hash[solutions_array.each { |subarray| subarray.slice!(2..3)}]
-        solutions_hash[self.game_number].downcase
+        Solution_list.list[self.game_number].downcase
     end
 
  
@@ -62,20 +68,6 @@ class Game
         return possible_chars   
             
     end
-
-    
-    # def get_possible_words
-    #     word_list_array = Valid_words.extended_list.split(" ")
-    #     possible_chars = self.get_possible_chars
-    #     possible_words = word_list_array.select {|word| 
-    #         possible_chars[0].include?(word[0]) &&
-    #         possible_chars[1].include?(word[1]) &&
-    #         possible_chars[2].include?(word[2]) &&
-    #         possible_chars[3].include?(word[3]) &&
-    #         possible_chars[4].include?(word[4])}
-    #          # == /^[possible_chars[0]][possible_chars[1]][possible_chars[2]][possible_chars[3]][possible_chars[4]]$/}
-    #     possible_words.sort().join(", ")
-    # end
 
 end
 
@@ -125,7 +117,7 @@ post '/results_1' do
        erb:main, :locals => {
            :error_message=>"invalid_input"
        }
-        # erb:invalid_input
+     
     end
 
 end

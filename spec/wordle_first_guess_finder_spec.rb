@@ -40,13 +40,7 @@ describe 'the_Game_class' do
         end
     end
 
-    describe 'catching invalid input errors' do
-        it 'returns invalid input!' do
-            expect(bad_test_game.game_number).to eq('Invalid input!')
-        end
-    end
-
-
+    
     describe 'get_solution' do
         it 'returns the right solution' do
             expect(test_game.get_solution).to eq('roomy')
@@ -67,11 +61,10 @@ describe 'the_Game_class' do
 
     describe 'get_possible_words' do
         it 'returns the right list of words' do
-            expect(test_game.get_possible_words).to eq( 
-                'cramp, creme, crime, crimp, crumb, crump, drama, frame, grime, prime, tramp, trams, trump'
-
-
+            expect(get_possible_words(test_game.get_possible_chars)).to eq(
+                'arame, arums, brame, breme, brims, brume, crame, cramp, crams, crema, creme, crems, crime, crimp, crims, crumb, crump, drama, drams, drums, frame, fremd, frump, grama, grame, gramp, grams, grime, grume, grump, imams, krump, lyams, nyams, prams, prems, prima, prime, primi, primp, prims, tramp, trams, trema, trems, trims, trump, umami'
             )
+            # short list:    'cramp, creme, crime, crimp, crumb, crump, drama, frame, grime, prime, tramp, trams, trump'
         end
     end
 
@@ -79,14 +72,6 @@ end
 
 
 RSpec.describe "the pages" do
-
-    # include Rack::Test::Methods
-    # include Rack::Session
-    # Capybara.app = Sinatra::Application
-
-    # def app
-    #     Sinatra::Application
-    # end    
 
     describe "main page" do
        
@@ -102,58 +87,6 @@ RSpec.describe "the pages" do
 
        
     end
-
-    
-#     describe "happy_path", type: :feature do
-
-               
-#         it "returns 200 from results_1" do
-#             visit "/"
-#             within ("form") do
-#                 fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-                
-#             end
-
-            
-#             expect(last_response.status).to eq 200
-#         end
-
-#         it "returns the correct word list in results_1" do
-#             visit "/"
-           
-#             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-#             post "/results_1"
-#             expect(page).to have_content "audio"
-#         end
-        
-#         it "returns the correct game solution in results_1" do
-#             visit "/"
-#             fill_in "game1", with: "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"
-#             post "/results_1"
-#             expect(last_response.body).to include "quart"
-#         end
-            
-#     end
-    
-        
-
-#     describe "results_1" do
-        
-#         let!(:response) {post "/results_1", :game1 => "Wordle 408 2/6              🟨🟩⬜⬜⬜             🟩🟩🟩🟩🟩"}
-
-#         it 'returns status 200 OK' do
-#             expect(last_response.status).to eq 200
-#         end
-
-#         it 'contains the game number in the body' do
-#             expect(last_response.body).to include("408")
-#         end
-      
-#     end
-    
-    
-
-
 
 end
 
